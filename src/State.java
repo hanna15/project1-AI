@@ -12,4 +12,14 @@ public class State {
 	public String toString() {
 		return "State{position: " + position + ", orientation: " + orientation + ", on:" + turned_on + "}";
 	}
+
+	public list<Action> legalActions() {
+		//TODO
+		//return list
+	}
+
+	public State successorState()  {
+		//TODO
+		return State;
+	}
 }
