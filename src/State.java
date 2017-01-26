@@ -26,7 +26,7 @@ public class State {
 		//return list
 	}
 
-	public State successorState(Action action)  {
+	public State successorState(Action action)  { //eda taka inn environment
 		//one example
 		switch(action) {
 			case GO:
@@ -46,14 +46,10 @@ public class State {
 		}
 	}
 	
-
-	public boolean isGoalState() {
-		//ATH! NO
-		e = new Environment();
-		if (position == e.homePos && orientation == e.homeOrient) {
+	public boolean isGoalState(Environment e) {
+		if (position == e.homePos && orientation == e.homeOrient) { //&& if all states are clean)
 			return true;
 		}
-		//and if all states are clean
 		return false;
 	}
 }
