@@ -7,8 +7,8 @@ public class State {
     public Position position;
     public boolean turned_on;
     public boolean contains_dirt;
-    public Environment e;
     
+    //viljum við að það taki inn "contains_dirt" ?
     public State(Position position, Orientation orientation, boolean turned_on, boolean contains_dirt) {
         this.position = position;
         this.orientation = orientation;
@@ -20,7 +20,7 @@ public class State {
         return "State{position: " + position + ", orientation: " + orientation + ", on:" + turned_on + "}";
     }
     
-    public ArrayList<Action> legalActions() {          // eda bara skila array?
+    public ArrayList<Action> legalActions(Environment e) {          // eda bara skila array?
         ArrayList<Action>legalA = new ArrayList<Action>();
         
         if (isGoalState(e)) {
@@ -62,8 +62,9 @@ public class State {
     }
     
     public boolean isGoalState(Environment e) {
-        if (position == e.home_pos && orientation == e.home_orient && e.num_dirt == 0) { //&& if all states are clean)
-            return true;
+    	//System.out.println(position + " vs " + e.home_pos + " " + orientation + " vs " + e.home_orient + " "  + e.num_dirt);
+        if (position.equals(e.home_pos) && orientation.equals(e.home_orient) && e.num_dirt == 0) {
+        	return true;
         }
         return false;
     }

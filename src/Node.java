@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.Queue;
 
 public class Node {
-	State state; //the state that corresponds to the node
-	Node parent; //to trace
-	int pathCost; //or double??
-	Action action; //the action that was used to reach this node
+	private State state; //the state that corresponds to the node
+	private Node parent; //to trace
+	private int pathCost; //or double??
+	private Action action; //the action that was used to reach this node
 	
 	public Node(State state) {
         this.state = state;
