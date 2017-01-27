@@ -16,10 +16,8 @@ public class Main {
 		my_dirt[2][3] = true;
 		my_dirt[0][0] = true;
 		
-		Obstacle o = new Obstacle();
-		Obstacle[] my_obstacles = new Obstacle[1];
-		my_obstacles[0] = o;
-		
+		boolean my_obstacles[][] = new boolean[L][W];
+
 		Position home_pos = new Position(1,2);
 		Environment e = new Environment(my_obstacles, my_dirt, home_pos, Orientation.NORTH, 2);
 		System.out.println("Home pos is " + e.home_pos);
