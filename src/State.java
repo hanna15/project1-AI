@@ -62,7 +62,7 @@ public class State {
     }
     
     public boolean isGoalState(Environment e) {
-        if (position == e.homePos && orientation == e.homeOrient) { //&& if all states are clean) (&& e.dirt.length == 0)?
+        if (position == e.home_pos && orientation == e.home_orient && e.num_dirt == 0) { //&& if all states are clean)
             return true;
         }
         return false;
