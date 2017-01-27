@@ -12,6 +12,8 @@ public class Node {
 	public Node(State state) {
         this.state = state;
         this.pathCost = 0;
+        this.action = null;
+        this.parent = null;
     }
 	public Node(State state, Node parent, Action action, int stepCost) {
         this(state);

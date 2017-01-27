@@ -8,7 +8,7 @@ public class State {
     public boolean turned_on;
     public boolean contains_dirt;
     
-    //viljum við að það taki inn "contains_dirt" ?
+    //viljum viï¿½ aï¿½ ï¿½aï¿½ taki inn "contains_dirt" ?
     public State(Position position, Orientation orientation, boolean turned_on, boolean contains_dirt) {
         this.position = position;
         this.orientation = orientation;
@@ -26,10 +26,10 @@ public class State {
         if (isGoalState(e)) {
             legalA.add(Action.TURN_OFF);
         }
-        /*else if (isInitialState(e)) {
-         legalA.add(Action.TURN_ON);
-         }
-         */
+        else if (this.equals(e.initial_state)) {
+        	legalA.add(Action.TURN_ON);
+        }
+        
         else if (contains_dirt) {
             legalA.add(Action.SUCK);
         }
@@ -41,13 +41,16 @@ public class State {
         return legalA;
     }
     
-    public State successorState(Action action)  { //eda taka inn environment
+    public State successorState(Action action, Environment e)  { //eda taka inn environment
         //one example
+    	contains_dirt = e.containsDirt(this.position);
+    	
         switch(action) {
             case GO:
                 Position new_pos = position.goOneStep(orientation);
-                return new State(new_pos, orientation, turned_on, contains_dirt);
+                return new State(new_pos, orientation, turned_on, e.containsDirt(new_pos));
             case SUCK:
+            	e.num_dirt--;
                 boolean newDirt = !contains_dirt;
                 return new State(position, orientation, turned_on, newDirt);
             case TURN_LEFT:

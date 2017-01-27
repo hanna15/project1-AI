@@ -10,6 +10,7 @@ public class Position {
 		this.x = x; this.y = y;
 	}
 	
+	// Erum að fara out of bounds - passa upp á obstacles
 	public Position goOneStep(Orientation orient) {
 		Position newPos = new Position(x,y);
 		switch(orient) {

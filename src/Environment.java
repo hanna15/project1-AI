@@ -3,10 +3,11 @@ package src;
 import java.util.Arrays;
 
 public class Environment {
-    public boolean obstacles[][]; //betra að hafa lista, því vitum ekki fyrir fram size?
+    public boolean obstacles[][]; //betra aï¿½ hafa lista, ï¿½vï¿½ vitum ekki fyrir fram size?
     public boolean dirt[][];
     public Position home_pos;
     public Orientation home_orient;
+    public State initial_state;
     public int num_dirt;
     public int sizeX;
     public int sizeY;
@@ -41,6 +42,22 @@ public class Environment {
     
     public void setHomeOrient(Orientation o) {
         home_orient = o;
+    }
+    
+    public void setInitialState() {
+    	boolean containsDirt = containsDirt(home_pos);
+    	State s = new State(home_pos, home_orient, true, containsDirt);
+    	System.out.println(s);
+    	initial_state = s;
+    }
+    
+    public boolean containsDirt(Position p) {
+    	int x = p.x;
+    	int y = p.y;
+    	if (dirt[x][y]) {
+    		return true;
+    	}
+    	return false;
     }
     
     public void addObstacle(int x, int y) {

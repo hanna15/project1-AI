@@ -1,4 +1,4 @@
-package prog1;
+package src;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -61,27 +61,15 @@ public class RemoteAgent implements Agent {
 				System.err.println("strange percept that does not match pattern: " + percept);
 			}
 		}
-		// TODO Auto-generated method stub
-//		for(String s: percepts) {
-//			System.out.println(s);
-//		}
+		e.setInitialState();
 		
-		// get obstacles
-		//boolean o = [][];
-		
-		//get dirt
-		//boolean d = [][];
-		
-		// initialize environment
-		//Environment e = new Environment(o, d, null, null, 0)
-		
-		// 
-		
+		BFS test = new BFS(e);
 	}
 
 	@Override
 	public String nextAction(Collection<String> percepts) {
 		// TODO Auto-generated method stub
+		// TODO: TURN ROBOT ON
 		return "GO";
 	}
 
