@@ -2,20 +2,21 @@ package src;
 
 import java.util.ArrayList;
 import java.util.Queue;
+import java.util.Stack;
 
 public class Node {
-	private State state; //the state that corresponds to the node
-	private Node parent; //to trace
-	private int pathCost; //or double??
-	private Action action; //the action that was used to reach this node
-	
-	public Node(State state) {
+    private State state; //the state that corresponds to the node
+    private Node parent; //to trace
+    private int pathCost; //or double??
+    private Action action; //the action that was used to reach this node
+    
+    public Node(State state) {
         this.state = state;
         this.pathCost = 0;
         this.action = null;
         this.parent = null;
     }
-	public Node(State state, Node parent, Action action, int stepCost) {
+    public Node(State state, Node parent, Action action, int stepCost) {
         this(state);
         this.parent = parent;
         this.action = action;
@@ -24,41 +25,43 @@ public class Node {
     public State getState() {
         return state;
     }
-
+    
     public Action getAction() {
         return action;
     }
-
+    
     public int getPathCost() {
         return pathCost;
     }
-
+    
     public boolean isRootNode() {
         return parent == null;
     }
-
-    public ArrayList<Node> getPathFromRoot() {
-        ArrayList<Node> path = new ArrayList<Node>();
+    
+    public Stack<Action> getPathFromRoot() {
+        Stack<Action> path = new Stack<Action>();
         Node currNode = this;
         while (!currNode.isRootNode()) {
-            path.add(0, currNode);
+            System.out.println("get path from root: ");
+            System.out.println(currNode.toString());
+            path.push(currNode.getAction());
             currNode = currNode.parent;
         }
-        path.add(0, currNode);
+        path.push(currNode.getAction());
         return path;
     }
-
+    
     public String toString() {
-        return "[paren:" + parent + ", action:" + action + ", state:"
-                + getState() + ", pathCost:" + pathCost + "]";
+        return "[parent:" + parent + ", action:" + action + ", state:"
+        + getState() + ", pathCost:" + pathCost + "]";
     }
-
+    
     public String pathToString() {
         String s = "";
-        ArrayList<Node> nodes = getPathFromRoot();
-        for (Node node : nodes) {
-            System.out.println("Action : " + node.getAction());
-            System.out.println("State  : " + node.getState());
+        Stack<Action> actions = getPathFromRoot();
+        for (Action action : actions) {
+            System.out.println("Action : " + action);
+            //System.out.println("State  : " + action.getState());
         }
         return s;
     }

@@ -45,19 +45,22 @@ public class Environment {
     }
     
     public void setInitialState() {
-    	boolean containsDirt = containsDirt(home_pos);
-    	State s = new State(home_pos, home_orient, true, containsDirt);
-    	System.out.println(s);
-    	initial_state = s;
+        boolean containsDirt = containsDirt(home_pos);
+        State s = new State(home_pos, home_orient, true, containsDirt);
+        System.out.println(s);
+        initial_state = s;
     }
     
     public boolean containsDirt(Position p) {
-    	int x = p.x;
-    	int y = p.y;
-    	if (dirt[x][y]) {
-    		return true;
-    	}
-    	return false;
+        if (p.x >= sizeX || p.y >= sizeY || p.x < 0 || p.y < 0) {
+            throw new IndexOutOfBoundsException();
+        }
+        int x = p.x;
+        int y = p.y;
+        if (dirt[x][y]) {
+            return true;
+        }
+        return false;
     }
     
     public void addObstacle(int x, int y) {
@@ -95,3 +98,4 @@ public class Environment {
         System.out.println("home_orient " + home_orient );
     }
 }
+

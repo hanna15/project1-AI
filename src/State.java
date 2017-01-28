@@ -20,14 +20,15 @@ public class State {
         return "State{position: " + position + ", orientation: " + orientation + ", on:" + turned_on + "}";
     }
     
-    public ArrayList<Action> legalActions(Environment e) {          // eda bara skila array?
+    public ArrayList<Action> legalActions(Environment e) {  // eda bara skila array?
         ArrayList<Action>legalA = new ArrayList<Action>();
         
-        if (isGoalState(e)) {
-            legalA.add(Action.TURN_OFF);
-        }
-        else if (this.equals(e.initial_state)) {
-        	legalA.add(Action.TURN_ON);
+        /*if (isGoalState(e)) {  // ath
+         legalA.add(Action.TURN_OFF);
+         }
+         else */
+        if (this.equals(e.initial_state)) {
+            legalA.add(Action.TURN_ON);
         }
         
         else if (contains_dirt) {
@@ -43,14 +44,14 @@ public class State {
     
     public State successorState(Action action, Environment e)  { //eda taka inn environment
         //one example
-    	contains_dirt = e.containsDirt(this.position);
-    	
+        //contains_dirt = e.containsDirt(this.position);
+        
         switch(action) {
             case GO:
-                Position new_pos = position.goOneStep(orientation);
+                Position new_pos = position.goOneStep(orientation, e);
                 return new State(new_pos, orientation, turned_on, e.containsDirt(new_pos));
             case SUCK:
-            	e.num_dirt--;
+                //e.num_dirt--;
                 boolean newDirt = !contains_dirt;
                 return new State(position, orientation, turned_on, newDirt);
             case TURN_LEFT:
@@ -64,11 +65,11 @@ public class State {
         }
     }
     
-    public boolean isGoalState(Environment e) {
-    	//System.out.println(position + " vs " + e.home_pos + " " + orientation + " vs " + e.home_orient + " "  + e.num_dirt);
-        if (position.equals(e.home_pos) && orientation.equals(e.home_orient) && e.num_dirt == 0) {
-        	return true;
-        }
-        return false;
-    }
+    //    public boolean isGoalState(Environment e) {
+    //    	//System.out.println(position + " vs " + e.home_pos + " " + orientation + " vs " + e.home_orient + " "  + e.num_dirt);
+    //        if (position.equals(e.home_pos) && orientation.equals(e.home_orient) && e.num_dirt == 0) {
+    //        	return true;
+    //        }
+    //        return false;
+    //    }
 }
