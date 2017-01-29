@@ -17,21 +17,20 @@ public class State {
     }
     
     public String toString() {
-        return "State{position: " + position + ", orientation: " + orientation + ", on:" + turned_on + "}";
+        return "State{position: " + position + ", orientation: " + orientation + ", on:" + turned_on + " dirt: " + contains_dirt + "}";
     }
     
-    public ArrayList<Action> legalActions(Environment e) {  // eda bara skila array?
-        ArrayList<Action>legalA = new ArrayList<Action>();
+  /*   ArrayList<Action>legalA = new ArrayList<Action>();
         
-        /*if (isGoalState(e)) {  // ath
-         legalA.add(Action.TURN_OFF);
-         }
-         else */
+        //if (isGoalState(e)) {  // ath
+        // legalA.add(Action.TURN_OFF);
+         //}
+         //else
         if (this.equals(e.initial_state)) {
             legalA.add(Action.TURN_ON);
         }
         
-        else if (contains_dirt) {
+        else if (this.contains_dirt) {
             legalA.add(Action.SUCK);
         }
         else {
@@ -41,6 +40,7 @@ public class State {
         }
         return legalA;
     }
+       */
     
     public State successorState(Action action, Environment e)  { //eda taka inn environment
         //one example
@@ -52,14 +52,20 @@ public class State {
                 return new State(new_pos, orientation, turned_on, e.containsDirt(new_pos));
             case SUCK:
                 //e.num_dirt--;
-                boolean newDirt = !contains_dirt;
-                return new State(position, orientation, turned_on, newDirt);
+                boolean new_dirt = !contains_dirt;
+                return new State(position, orientation, turned_on, new_dirt);
             case TURN_LEFT:
                 Orientation left_orient = orientation.turnLeft(orientation);
                 return new State(position, left_orient, turned_on, contains_dirt);
             case TURN_RIGHT:
                 Orientation right_orient = orientation.turnRight(orientation);
                 return new State(position, right_orient, turned_on, contains_dirt);
+            case TURN_ON:
+            	boolean turn_on = !turned_on;
+            	return new State(position, orientation, turn_on, contains_dirt);
+            case TURN_OFF:
+            	boolean turn_off = !turned_on;
+            	return new State(position, orientation, turn_off, contains_dirt);
             default: //should never happen
                 return new State(position, orientation, turned_on, contains_dirt);
         }

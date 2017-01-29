@@ -40,12 +40,12 @@ public class RemoteAgent implements Agent {
                     Matcher m3 = Pattern.compile("\\(\\s*AT\\sOBSTACLE\\s+([0-9]+)\\s+([0-9]+)\\s*\\)").matcher(percept);
                     if (m2.matches()) {
                         System.out.println("dirt is at " + m2.group(1) + "," + m2.group(2));
-                        e.addDirt(Integer.valueOf(m2.group(2)), Integer.valueOf(m2.group(1)));
+                        e.addDirt(Integer.valueOf(m2.group(1)), Integer.valueOf(m2.group(2)));
                     }
                     
                     else if (m3.matches()) {
                         System.out.println("obstacle is at " + m3.group(1) + "," + m3.group(2));
-                        e.addObstacle(Integer.valueOf(m3.group(2)), Integer.valueOf(m3.group(1)));
+                        e.addObstacle(Integer.valueOf(m3.group(1)), Integer.valueOf(m3.group(2)));
                     }
                 }
                 else if (perceptName.equals("ORIENTATION")) {
@@ -64,7 +64,7 @@ public class RemoteAgent implements Agent {
             }
         }
         e.setInitialState();
-        
+    	e.printEnvironment();
         BFS bfs = new BFS(e);
         actions = bfs.bfsRun;
         for(Action ax: actions) {

@@ -1,5 +1,6 @@
 package src;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Environment {
@@ -46,7 +47,7 @@ public class Environment {
     
     public void setInitialState() {
         boolean containsDirt = containsDirt(home_pos);
-        State s = new State(home_pos, home_orient, true, containsDirt);
+        State s = new State(home_pos, home_orient, false, containsDirt);
         System.out.println(s);
         initial_state = s;
     }
@@ -63,6 +64,68 @@ public class Environment {
         return false;
     }
     
+    public void updateDirt(Position p) {
+    	for(int i = 0; i < dirt.length; i++) {
+            for (int j = 0; j < dirt[0].length; j++) {
+                System.out.print( " [" + dirt[i][j] + "] ");
+            }
+            System.out.println("");
+        }
+    	System.out.println("");
+    	boolean prev_dirt = dirt[p.x][p.y];
+    	dirt[p.x][p.y] = !prev_dirt;
+    	for(int i = 0; i < dirt.length; i++) {
+            for (int j = 0; j < dirt[0].length; j++) {
+                System.out.print( " [" + dirt[i][j] + "] ");
+            }
+            System.out.println("");
+        }
+    }
+    
+    public ArrayList<Action> legalActions(State s) {  // eda bara skila array?
+        ArrayList<Action>legalA = new ArrayList<Action>();
+        
+        /*if (isGoalState(e)) {  // ath
+         legalA.add(Action.TURN_OFF);
+         }
+         else */
+        if (s.equals(initial_state)) {
+            legalA.add(Action.TURN_ON);
+        }
+        
+        else if (containsDirt(s.position)) { //s.contains_dirt
+            legalA.add(Action.SUCK);
+        }
+        else {
+        	switch(s.orientation) {
+            case NORTH:
+                if (s.position.y > 0) {
+                    legalA.add(Action.GO);
+                }
+                break;
+            case SOUTH:
+                if (s.position.y < sizeY - 1) {
+                    legalA.add(Action.GO);
+                }
+                break;
+            case WEST:
+                if (s.position.x > 0) {
+                    legalA.add(Action.GO);
+                }
+                break;
+            case EAST:
+                if (s.position.x < sizeX -1) {
+                    legalA.add(Action.GO);
+                }
+                break;
+        	}
+            //legalA.add(Action.GO);
+            legalA.add(Action.TURN_LEFT);
+            legalA.add(Action.TURN_RIGHT);
+        }
+        return legalA;
+    }
+    
     public void addObstacle(int x, int y) {
         obstacles[x-1][y-1] = true;
     }
@@ -71,7 +134,6 @@ public class Environment {
         dirt[x-1][y-1] = true;
         num_dirt ++;
     }
-    
     
     public void printEnvironment() {
         System.out.println("sizeX " + sizeX );

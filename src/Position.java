@@ -14,13 +14,13 @@ public class Position {
         Position newPos = new Position(x,y);
         switch(orient) {
             case NORTH:
-                if (y < e.sizeY -1) {
-                    newPos.y++;
+                if (y > 0) {
+                    newPos.y--;
                 }
                 break;
             case SOUTH:
-                if (y > 0) {
-                    newPos.y--;
+                if (y < e.sizeY - 1) {
+                    newPos.y++;
                 }
                 break;
             case WEST:
