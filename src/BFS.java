@@ -26,6 +26,7 @@ public class BFS {
         }
     }
     public Stack<Action> runBFS() {
+    	//Stack<Action> actionList = new Stack<Action>();
         
         // TODO: kannski hafa isGoalState i Environment
         if (isGoalState(initial_node.getState())) {
@@ -44,6 +45,7 @@ public class BFS {
                     num_dirt--;
                     env.updateDirt(parent.getState().position);
                     System.out.println();
+                    //actionList.addAll(parent.getPathFromRoot());
                     for(int i = 0; i < env.dirt.length; i++) {
                         for (int j = 0; j < env.dirt[0].length; j++) {
                             System.out.print( " [" + env.dirt[i][j] + "] ");
@@ -73,7 +75,7 @@ public class BFS {
     
     public boolean isGoalState(State s) {
         //System.out.println(position + " vs " + e.home_pos + " " + orientation + " vs " + e.home_orient + " "  + e.num_dirt);
-        if (num_dirt <= 0) {//s.position.equals(env.home_pos) && s.orientation.equals(env.home_orient) && num_dirt <= 0
+        if (num_dirt <= 1 && s.position.equals(env.home_pos) && s.orientation.equals(env.home_orient)) {
             //turnOff();
             return true;
         }

@@ -47,7 +47,7 @@ public class Environment {
     
     public void setInitialState() {
         boolean containsDirt = containsDirt(home_pos);
-        State s = new State(home_pos, home_orient, false, containsDirt);
+        State s = new State(home_pos, home_orient, true, containsDirt);
         System.out.println(s);
         initial_state = s;
     }
@@ -59,6 +59,18 @@ public class Environment {
         int x = p.x;
         int y = p.y;
         if (dirt[x][y]) {
+            return true;
+        }
+        return false;
+    }
+    
+    public boolean containsObstacle(Position p) {
+        if (p.x >= sizeX || p.y >= sizeY || p.x < 0 || p.y < 0) {
+            throw new IndexOutOfBoundsException();
+        }
+        int x = p.x;
+        int y = p.y;
+        if (obstacles[x][y]) {
             return true;
         }
         return false;
@@ -89,32 +101,31 @@ public class Environment {
          legalA.add(Action.TURN_OFF);
          }
          else */
-        if (s.equals(initial_state)) {
-            legalA.add(Action.TURN_ON);
-        }
-        
-        else if (containsDirt(s.position)) { //s.contains_dirt
+        //if (s.equals(initial_state)) {
+        //    legalA.add(Action.TURN_ON);
+        //}
+        if (containsDirt(s.position)) { //s.contains_dirt
             legalA.add(Action.SUCK);
         }
         else {
         	switch(s.orientation) {
             case NORTH:
-                if (s.position.y > 0) {
+                if (s.position.y < sizeY - 1 && !containsObstacle(new Position(s.position.x, s.position.y+1))) {
                     legalA.add(Action.GO);
                 }
                 break;
             case SOUTH:
-                if (s.position.y < sizeY - 1) {
+                if (s.position.y > 0 && !containsObstacle(new Position(s.position.x, s.position.y-1))) {
                     legalA.add(Action.GO);
                 }
                 break;
             case WEST:
-                if (s.position.x > 0) {
+                if (s.position.x > 0 && !containsObstacle(new Position(s.position.x - 1, s.position.y))) {
                     legalA.add(Action.GO);
                 }
                 break;
             case EAST:
-                if (s.position.x < sizeX -1) {
+                if (s.position.x < sizeX -1 && !containsObstacle(new Position(s.position.x + 1, s.position.y))) {
                     legalA.add(Action.GO);
                 }
                 break;
@@ -153,7 +164,6 @@ public class Environment {
             }
             System.out.println("");
         }
-        
         
         System.out.println("obstacles " + Arrays.deepToString(obstacles) );
         System.out.println("home_pos " + home_pos );

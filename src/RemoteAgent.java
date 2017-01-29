@@ -80,14 +80,16 @@ public class RemoteAgent implements Agent {
         if (!actions.empty() && actions != null) {
             Action a = actions.pop();
             if (a == null) {
-                return "a is null";
+                return "TURN_ON";
             }
             else {
                 System.out.println(a.toString());
                 return a.toString();
             }
         }
-        return "WAT"; //fix later
+        return "TURN_OFF"; //fix later
     }
     
 }
+
+
