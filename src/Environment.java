@@ -46,8 +46,8 @@ public class Environment {
     }
     
     public void setInitialState() {
-        boolean containsDirt = containsDirt(home_pos);
-        State s = new State(home_pos, home_orient, true, containsDirt);
+        //boolean containsDirt = containsDirt(home_pos);
+        State s = new State(home_pos, home_orient, true, dirt);
         System.out.println(s);
         initial_state = s;
     }
@@ -104,7 +104,7 @@ public class Environment {
         //if (s.equals(initial_state)) {
         //    legalA.add(Action.TURN_ON);
         //}
-        if (containsDirt(s.position)) { //s.contains_dirt
+        if (s.dirt[s.position.x][s.position.y]) { //s.contains_dirt
             legalA.add(Action.SUCK);
         }
         else {
@@ -151,15 +151,15 @@ public class Environment {
         System.out.println("sizeY " + sizeY );
         System.out.println("num_dirt " + num_dirt);
         
-        for(int i = 0; i < dirt.length; i++) {
-            for (int j = 0; j < dirt[0].length; j++) {
+        for(int i = 0; i < dirt[0].length; i++) {
+            for (int j = 0; j < dirt.length; j++) {
                 System.out.print( " [" + dirt[i][j] + "] ");
             }
             System.out.println("");
         }
         System.out.println("");
-        for(int i = 0; i < obstacles.length; i++) {
-            for (int j = 0; j < obstacles[0].length; j++) {
+        for(int i = 0; i < obstacles[0].length; i++) {
+            for (int j = 0; j < obstacles.length; j++) {
                 System.out.print( " [" + obstacles[i][j] + "] " );
             }
             System.out.println("");

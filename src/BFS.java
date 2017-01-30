@@ -39,21 +39,32 @@ public class BFS {
             explored.add(parent);
             
             for(Action a : env.legalActions(parent.getState())) {
+            	State child_state = parent.getState().successorState(a, env);
+            	
             	System.out.println("current legal action of the state " + parent.getState().toString() + "is : " + a);
-                if (a == Action.SUCK) {
+                
+            	if (a == Action.SUCK) {
                 	System.out.println("Action was suck");
-                    num_dirt--;
-                    env.updateDirt(parent.getState().position);
+                    //num_dirt--;
+                    //env.updateDirt(parent.getState().position); 
                     System.out.println();
-                    //actionList.addAll(parent.getPathFromRoot());
-                    for(int i = 0; i < env.dirt.length; i++) {
-                        for (int j = 0; j < env.dirt[0].length; j++) {
-                            System.out.print( " [" + env.dirt[i][j] + "] ");
+                    //actionList.addAll(parent.getPathFromRoot())
+                    System.out.println("Parent: ");
+                    for(int i = 0; i < parent.getState().dirt.length; i++) {
+                        for (int j = 0; j < parent.getState().dirt[0].length; j++) {
+                            System.out.print( " [" + parent.getState().dirt[i][j] + "] ");
+                        }
+                        System.out.println("");
+                    }
+                    System.out.println("Child: ");
+                    for(int i = 0; i < child_state.dirt.length; i++) {
+                        for (int j = 0; j < child_state.dirt[0].length; j++) {
+                            System.out.print( " [" + child_state.dirt[i][j] + "] ");
                         }
                         System.out.println("");
                     }
                 }
-            	State child_state = parent.getState().successorState(a, env);
+            	
                 Node child = new Node(child_state, parent, a, a.getCost(a));
                 System.out.println("The successor state is " + child_state.toString());
                 
@@ -63,6 +74,7 @@ public class BFS {
                     	System.out.println("Found goal state, it is: " + child.toString());
                         return child.getPathFromRoot();
                     }
+                    //System.out.println("CHIIILD ADDDDEEEDDD TOOOOO FRONTIERRRRRRRRRRRRR");
                     frontier.add(child);
                 }
                 System.out.println("FOR");
@@ -75,7 +87,16 @@ public class BFS {
     
     public boolean isGoalState(State s) {
         //System.out.println(position + " vs " + e.home_pos + " " + orientation + " vs " + e.home_orient + " "  + e.num_dirt);
-        if (num_dirt <= 1 && s.position.equals(env.home_pos) && s.orientation.equals(env.home_orient)) {
+        int dirts = 0;
+    	for (int i = 0; i < s.dirt.length; i++ ) { // if this works, exchange for a variable num_dirt
+        	for (int j = 0; j < s.dirt[0].length; j++) {
+        		if(s.dirt[i][j] == true ) {
+        			dirts++;
+        		}
+        	}
+        }
+    	
+    	if (dirts <= 1 ){ //&& s.position.equals(env.home_pos) && s.orientation.equals(env.home_orient)) {
             //turnOff();
             return true;
         }

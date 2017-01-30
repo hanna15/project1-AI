@@ -63,6 +63,7 @@ public class RemoteAgent implements Agent {
                 System.err.println("strange percept that does not match pattern: " + percept);
             }
         }
+        System.out.println(Arrays.deepToString(e.dirt));
         e.setInitialState();
     	e.printEnvironment();
         BFS bfs = new BFS(e);
