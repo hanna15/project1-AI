@@ -28,7 +28,7 @@ public class Position {
                     newPos.x++;
                 break;
         }
-        System.out.println(newPos);
+        //System.out.println(newPos);
         return newPos;
     }
     @Override 
