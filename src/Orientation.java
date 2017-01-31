@@ -1,4 +1,5 @@
-package src;
+package ath;
+
 public enum Orientation {
 	NORTH, EAST, SOUTH, WEST;
 	
@@ -31,5 +32,5 @@ public enum Orientation {
 				return NORTH;
 		}
 	}
-	
-};
+}
+
