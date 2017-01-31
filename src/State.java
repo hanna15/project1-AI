@@ -1,4 +1,4 @@
-package ath;
+package src;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.ArrayList;
@@ -23,10 +23,10 @@ public class State {
     	return this.position; 
     }
 
-    public boolean isGoalState(Position home) {
+    public boolean isGoalState(Position home, Orientation h_orient) {
         // Do not check if the bot is turned off since it is added manually
     	//int trueCount = Arrays.deepToString(dirt2).replaceAll("[^t]", "").length();
-        if (dirt.size() == 0 && this.getPosition().equals(home)) {
+        if (dirt.size() == 0 && this.getPosition().equals(home) && this.orientation.equals(h_orient)) {
             return true;
         }
         return false;
@@ -36,27 +36,31 @@ public class State {
         ArrayList<Action> legalActions = new ArrayList<Action>();
 
         if (dirt.contains(position)) {
+        	// System.out.println("in suck");
             legalActions.add(Action.SUCK);
         }
         else {
             // try to turn right
             Orientation rOrient = orientation.turnRight(orientation);
             if (isPositionLegal(position.goOneStep(rOrient), e.sizeX,e.sizeY)) {
+            	// System.out.println("in right");
                 legalActions.add(Action.TURN_RIGHT);
             }
 
             // try to turn left
             Orientation lOrient = orientation.turnLeft(orientation);
             if (isPositionLegal(position.goOneStep(lOrient), e.sizeX, e.sizeY)) {
+            	// System.out.println("in left");
                 legalActions.add(Action.TURN_LEFT);
             }
 
             // Try to go forward 
             Position nextPos = position.goOneStep(orientation);
             if (isPositionLegal(nextPos, e.sizeX, e.sizeY) && !e.containsObstacle(nextPos)) {
+            	// System.out.println("in GO");
                 legalActions.add(Action.GO);
             }
-            //System.out.println("NOTHING");
+            // System.out.println("NOTHING");
         }
         return legalActions;
     }

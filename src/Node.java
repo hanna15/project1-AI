@@ -1,4 +1,4 @@
-package ath;
+package src;
 import java.util.Stack;
 
 public class Node {
@@ -31,8 +31,8 @@ public class Node {
          Node currNode = this;
          path.push(Action.TURN_OFF);
          while (!currNode.isRootNode()) {
-             System.out.println("get path from root: ");
-             System.out.println(currNode.toString());
+            // System.out.println("get path from root: ");
+            // System.out.println(currNode.toString());
              path.push(currNode.action);
              currNode = currNode.parent;
          }

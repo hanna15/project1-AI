@@ -1,4 +1,4 @@
-package ath;
+package src;
 import java.io.IOException;
 
 public class Main {

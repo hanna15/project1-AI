@@ -1,9 +1,10 @@
-package ath;
+package src;
 import java.util.HashSet;
 
 public class Environment {
 	public boolean obstacles[][]; 
     public HashSet<Position> dirt;
+    //public Position dirt[];
     //public boolean dirt2[][];
     public Position home_pos;
     public Orientation home_orient;
@@ -13,8 +14,8 @@ public class Environment {
     
     Environment(int x, int y) {
     	setSize(x,y);
-    	home_pos = new Position(0, 0);
-    	home_orient = Orientation.NORTH;
+//    	home_pos = new Position(0, 0); // no
+//    	home_orient = Orientation.NORTH; // no
     	obstacles = new boolean[sizeX][sizeY];
     	dirt = new HashSet<Position>();
     }
@@ -34,7 +35,7 @@ public class Environment {
     
     public void setInitialState() {
         State s = new State(home_pos, home_orient, true, dirt);
-        System.out.println(s);
+        // System.out.println(s);
         initial_state = s;
     }
   

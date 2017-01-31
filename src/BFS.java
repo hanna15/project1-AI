@@ -1,4 +1,4 @@
-package ath;
+package src;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -17,10 +17,10 @@ public class BFS {
     	e = env;
     	initial_node = new Node(e.initial_state, 0, null, null);
     	frontier = new LinkedList<Node>();
-        System.out.println("printing env info:");
-        System.out.println("init state " + e.initial_state);
-        System.out.println("x sixe " + e.sizeX);
-        System.out.println("pos of dirts: ");
+        //System.out.println("printing env info:");
+        //System.out.println("init state " + e.initial_state);
+        //System.out.println("x sixe " + e.sizeX);
+        //System.out.println("pos of dirts: ");
         //for (Position p : e.dirt) {
         //	System.out.print(p + " ");
         //}
@@ -42,7 +42,7 @@ public class BFS {
             	for (Action a : actions) {
             		State newState = s.successorState(a);
                     Node childNode = new Node(newState, 0, n, a);
-                    if (newState.isGoalState(e.home_pos)) {
+                    if (newState.isGoalState(e.home_pos, e.home_orient)) {
                     	System.out.println("Found goal State. " + newState);
                     	return childNode.getPathFromRoot();
                     }

@@ -1,39 +1,26 @@
 package src;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Stack;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class RemoteAgentGeneral implements Agent{
-
-    private Stack<Action> actionSequence = new Stack<Action>();
-    private Environment e;
-
-    public void init(Collection<String> percepts){
-        SearchType st = SearchType.BFS;
-        actionSequence = parseInputAndRunSearch(percepts, st);
-//      System.out.print("Clean Sequence is: ");
-//        for (Action a : actionSequence) {
-//        	System.out.print(a + " ");
-//        } 
-    }
-
-    public String nextAction(Collection<String> percepts){
-        if (actionSequence.size() != 0) {
-            return actionSequence.pop().toString();
-        }
-        return null;
-    }
-
-    private Stack<Action> parseInputAndRunSearch(Collection<String> percepts, SearchType searchType) {
-    	ArrayList<String> a = new ArrayList<String>(percepts);
+public class RemoteAgent implements Agent {
+    public Environment e;
+    Stack<Action> actions;
+    
+    @Override
+    public void init(Collection<String> percepts) {
+        ArrayList<String> a = new ArrayList<String>(percepts);
         String size = a.get(a.size()-1);
         
         Matcher m0 = Pattern.compile("\\(\\s*SIZE\\s+([0-9]+)\\s+([0-9]+)\\s*\\)").matcher(size);
         if (m0.matches()) {
+            //System.out.println("size is " + m0.group(1) + "," + m0.group(2));
             e = new Environment(Integer.valueOf(m0.group(1)), Integer.valueOf(m0.group(2)));
+            //System.out.println(e.sizeX);
         }
         
         Pattern perceptNamePattern = Pattern.compile("\\(\\s*([^\\s]+).*");
@@ -52,12 +39,12 @@ public class RemoteAgentGeneral implements Agent{
                     Matcher m2 = Pattern.compile("\\(\\s*AT\\sDIRT\\s+([0-9]+)\\s+([0-9]+)\\s*\\)").matcher(percept);
                     Matcher m3 = Pattern.compile("\\(\\s*AT\\sOBSTACLE\\s+([0-9]+)\\s+([0-9]+)\\s*\\)").matcher(percept);
                     if (m2.matches()) {
-                        System.out.println("dirt is at " + m2.group(1) + "," + m2.group(2));
+                        //System.out.println("dirt is at " + m2.group(1) + "," + m2.group(2));
                         e.addDirt(Integer.valueOf(m2.group(1)), Integer.valueOf(m2.group(2)));
                     }
                     
                     else if (m3.matches()) {
-                        System.out.println("obstacle is at " + m3.group(1) + "," + m3.group(2));
+                        //System.out.println("obstacle is at " + m3.group(1) + "," + m3.group(2));
                         e.addObstacle(Integer.valueOf(m3.group(1)), Integer.valueOf(m3.group(2)));
                     }
                 }
@@ -72,23 +59,38 @@ public class RemoteAgentGeneral implements Agent{
                 else {
                     //System.out.println("other percept:" + percept);
                 }
-            } 
+            } else {
+                System.err.println("strange percept that does not match pattern: " + percept);
+            }
         }
+        //System.out.println(Arrays.deepToString(e.dirt));
         e.setInitialState();
-        
-        if (searchType == SearchType.BFS) {
-        	BFS bfs = new BFS(e);
-        	return bfs.findPath();
-        }
-        else if (searchType == SearchType.DFS) {
-            //
-        	DFS dfs = new DFS(e);
-        	return dfs.findPath();
-        }
-        else {
-            System.out.print("No valid search option selected");
-        }
-        return null;
+    	//e.printEnvironment();
+        // BFS bfs = new BFS(e);
+        //actions = bfs.bfsRun;
+//        for(Action ax: actions) {
+//            System.out.print(ax + " ");
+//        }
+//        System.out.println(" ");
     }
-
+    
+    @Override
+    public String nextAction(Collection<String> percepts) {
+        // TODO Auto-generated method stub
+        // TODO: TURN ROBOT ON
+        if (!actions.empty() && actions != null) {
+            Action a = actions.pop();
+            if (a == null) {
+                return "TURN_ON";
+            }
+            else {
+               // System.out.println(a.toString());
+                return a.toString();
+            }
+        }
+        return "TURN_OFF"; //fix later
+    }
+    
 }
+
+

@@ -1,4 +1,4 @@
-package ath;
+package src;
 import java.util.Collection;
 
 public interface Agent

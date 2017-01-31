@@ -1,4 +1,4 @@
-package ath;
+package src;
 
 public class Position {
 
@@ -28,7 +28,7 @@ public class Position {
                     newPos.x++;
                 break;
         }
-        //System.out.println(newPos);
+        // System.out.println(newPos);
         return newPos;
     }
     @Override 
