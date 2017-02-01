@@ -31,12 +31,13 @@ public class Node {
          Node currNode = this;
          path.push(Action.TURN_OFF);
          while (!currNode.isRootNode()) {
-            // System.out.println("get path from root: ");
-            // System.out.println(currNode.toString());
              path.push(currNode.action);
              currNode = currNode.parent;
          }
          path.push(Action.TURN_ON);
+         //System.out.println("get path from root: ");
+         //System.out.println(path.size());
+         //System.out.println(path); 
          return path;
     }
 

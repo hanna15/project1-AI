@@ -39,6 +39,8 @@ public class BFS {
             State s = n.getState();
             if (!explored.contains(s)) {
                 ArrayList<Action> actions = s.legalActions(e);
+                System.out.println("list of actions");
+            	System.out.println(actions.toString());
             	for (Action a : actions) {
             		State newState = s.successorState(a);
                     Node childNode = new Node(newState, 0, n, a);

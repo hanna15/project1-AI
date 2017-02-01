@@ -40,6 +40,13 @@ public class State {
             legalActions.add(Action.SUCK);
         }
         else {
+        	// Try to go forward 
+            Position nextPos = position.goOneStep(orientation);
+            if (isPositionLegal(nextPos, e.sizeX, e.sizeY) && !e.containsObstacle(nextPos)) {
+            	// System.out.println("in GO");
+                legalActions.add(Action.GO);
+            }
+        	
             // try to turn right
             Orientation rOrient = orientation.turnRight(orientation);
             if (isPositionLegal(position.goOneStep(rOrient), e.sizeX,e.sizeY)) {
@@ -49,17 +56,11 @@ public class State {
 
             // try to turn left
             Orientation lOrient = orientation.turnLeft(orientation);
-            if (isPositionLegal(position.goOneStep(lOrient), e.sizeX, e.sizeY)) {
+            if (isPositionLegal(position.goOneStep(lOrient), e.sizeX, e.sizeY)) { 
             	// System.out.println("in left");
                 legalActions.add(Action.TURN_LEFT);
             }
-
-            // Try to go forward 
-            Position nextPos = position.goOneStep(orientation);
-            if (isPositionLegal(nextPos, e.sizeX, e.sizeY) && !e.containsObstacle(nextPos)) {
-            	// System.out.println("in GO");
-                legalActions.add(Action.GO);
-            }
+            
             // System.out.println("NOTHING");
         }
         return legalActions;
