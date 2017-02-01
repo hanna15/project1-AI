@@ -1,4 +1,6 @@
 package src;
+
+
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.ArrayList;
@@ -23,10 +25,10 @@ public class State {
     	return this.position; 
     }
 
-    public boolean isGoalState(Position home, Orientation h_orient) {
+    public boolean isGoalState(Position home) {
         // Do not check if the bot is turned off since it is added manually
     	//int trueCount = Arrays.deepToString(dirt2).replaceAll("[^t]", "").length();
-        if (dirt.size() == 0 && this.getPosition().equals(home) && this.orientation.equals(h_orient)) {
+        if (dirt.size() == 0 && this.getPosition().equals(home)) {
             return true;
         }
         return false;
@@ -155,6 +157,21 @@ public class State {
 
     public String toString() {
         return "State{position: " + position + ", orientation: " + orientation + "}";
+    }
+    
+    public int calculateCost(Action action, Position home) {
+    	if (action.equals(Action.TURN_OFF)) {
+        	if(this.position.equals(home)) {
+        		return 1 + 50 * this.dirt.size();
+        	}
+        	else {
+        		return 100 + 50 * this.dirt.size();
+        	}
+        }
+        if (!this.dirt.contains(this.position) && action.equals(Action.SUCK)) {
+            return 5;
+        }
+        return 1; //all other actions
     }
 
     @Override

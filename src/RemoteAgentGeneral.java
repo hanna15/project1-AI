@@ -12,12 +12,12 @@ public class RemoteAgentGeneral implements Agent{
     private Environment e;
 
     public void init(Collection<String> percepts){
-        SearchType st = SearchType.BFS;
+        SearchType st = SearchType.UNIFORMCOST;
         actionSequence = parseInputAndRunSearch(percepts, st);
 		System.out.print("Clean Sequence is: ");
-		for (Action a : actionSequence) {
-			System.out.print(a + " ");
-		} 
+		//for (Action a : actionSequence) {
+		//	System.out.print(a + " ");
+		//} 
     }
 
     public String nextAction(Collection<String> percepts){
@@ -84,6 +84,11 @@ public class RemoteAgentGeneral implements Agent{
             //
         	DFS dfs = new DFS(e);
         	return dfs.findPath();
+        }
+        else if (searchType == SearchType.UNIFORMCOST) {
+            //
+        	UniformCost uc = new UniformCost(e);
+        	return uc.findPath();
         }
         else {
             System.out.print("No valid search option selected");

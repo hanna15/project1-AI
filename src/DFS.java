@@ -24,7 +24,7 @@ public class DFS {
     public Node findPath(Node n) {
     	State curr_state = n.getState();
     	
-    	if(curr_state.isGoalState(e.home_pos, e.home_orient)) {
+    	if(curr_state.isGoalState(e.home_pos)) {
     		return n;
     	}
     	

@@ -44,7 +44,7 @@ public class BFS {
             	for (Action a : actions) {
             		State newState = s.successorState(a);
                     Node childNode = new Node(newState, 0, n, a);
-                    if (newState.isGoalState(e.home_pos, e.home_orient)) {
+                    if (newState.isGoalState(e.home_pos)) {
                     	System.out.println("Found goal State. " + newState);
                     	return childNode.getPathFromRoot();
                     }

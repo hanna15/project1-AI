@@ -4,14 +4,21 @@ import java.util.Stack;
 public class Node {
 	private State state; //the state that corresponds to the node
     private Node parent; //to trace
-    private int pathCost; //or double??
+    private int path_cost; //or double??
     private Action action; //the action that was used to reach this node
+    
+    public Node(State state) {
+    	this.state = state;
+    	this.parent = null;
+    	this.action = null;
+    	this.path_cost = 0;
+    }
 
     public Node(State state, int stepCost, Node parent, Action action) {
         this.state = state;
         this.parent = parent;
         this.action = action;
-        this.pathCost = stepCost;
+        this.path_cost = parent.path_cost + stepCost;
     }
 
     public State getState() {
@@ -35,9 +42,6 @@ public class Node {
              currNode = currNode.parent;
          }
          path.push(Action.TURN_ON);
-         //System.out.println("get path from root: ");
-         //System.out.println(path.size());
-         //System.out.println(path); 
          return path;
     }
 
@@ -46,6 +50,6 @@ public class Node {
     }
 
     public int getPathCost() { 
-    	return this.pathCost; 
+    	return this.path_cost; 
     }
 }
