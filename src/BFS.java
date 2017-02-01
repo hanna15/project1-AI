@@ -10,7 +10,7 @@ import java.util.Stack;
 public class BFS {
     private Node initial_node;
     private Queue<Node> frontier;
-    private Set<State> explored = new HashSet<State>();
+    private HashMap<State, Node> explored = new HashMap<State, Node>();
     private Environment e;
 
     public BFS(Environment env){
@@ -37,10 +37,10 @@ public class BFS {
         while (!frontier.isEmpty()) {
             Node n = frontier.remove();
             State s = n.getState();
-            if (!explored.contains(s)) {
+            if (!explored.containsKey(s)) {
                 ArrayList<Action> actions = s.legalActions(e);
-                System.out.println("list of actions");
-            	System.out.println(actions.toString());
+                //System.out.println("list of actions");
+            	//System.out.println(actions.toString());
             	for (Action a : actions) {
             		State newState = s.successorState(a);
                     Node childNode = new Node(newState, 0, n, a);
@@ -50,8 +50,9 @@ public class BFS {
                     }
                     frontier.add(childNode);
             	}
-                explored.add(s);
+                explored.put(s, n);
             }
+            System.out.println("Frontier size: " + frontier.size());
         }
         System.out.println("No goal node found");
         return failure();

@@ -3,7 +3,7 @@ package src;
 public enum Orientation {
 	NORTH, EAST, SOUTH, WEST;
 	
-	public Orientation turnRight(Orientation prev_orientation) {
+	/*public Orientation turnRight(Orientation prev_orientation) {
 		switch(prev_orientation) {
 			case NORTH:
 				return EAST;
@@ -31,6 +31,6 @@ public enum Orientation {
 			default: //Should never happend
 				return NORTH;
 		}
-	}
+	}*/
 }
 

@@ -41,7 +41,8 @@ public class Position {
     }
 
     @Override
-    public int hashCode() {
-        return this.x + (this.y << 17);
-    }
+	public int hashCode() {
+		int tmp = (y + ((x+1)/2));
+        return x + (tmp * tmp);
+	}
 }

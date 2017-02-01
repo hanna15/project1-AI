@@ -34,7 +34,7 @@ public class Environment {
     }
     
     public void setInitialState() {
-        State s = new State(home_pos, home_orient, true, dirt);
+        State s = new State(home_pos, home_orient, dirt);
         // System.out.println(s);
         initial_state = s;
     }

@@ -7,14 +7,14 @@ import java.util.Iterator;
 public class State {
     private Orientation orientation;
     private Position position;
-    private boolean turned_on;
+    //private boolean turned_on;
     public HashSet<Position> dirt;
    // public boolean[][] dirt2;
 
-    public State(Position position, Orientation orientation, boolean turned_on, HashSet<Position> dirt) {
+    public State(Position position, Orientation orientation, HashSet<Position> dirt) { // turned on tekið út.
         this.position = position;
         this.orientation = orientation;
-        this.turned_on = turned_on;
+        //this.turned_on = turned_on;
         this.dirt = dirt;
         //this.dirt2 = dirt2;
     }
@@ -48,14 +48,14 @@ public class State {
             }
         	
             // try to turn right
-            Orientation rOrient = orientation.turnRight(orientation);
+            Orientation rOrient = turnRight();
             if (isPositionLegal(position.goOneStep(rOrient), e.sizeX,e.sizeY)) {
             	// System.out.println("in right");
                 legalActions.add(Action.TURN_RIGHT);
             }
 
             // try to turn left
-            Orientation lOrient = orientation.turnLeft(orientation);
+            Orientation lOrient = turnLeft();
             if (isPositionLegal(position.goOneStep(lOrient), e.sizeX, e.sizeY)) { 
             	// System.out.println("in left");
                 legalActions.add(Action.TURN_LEFT);
@@ -75,20 +75,20 @@ public class State {
 
     public State successorState(Action action) {
         if (action.equals(Action.TURN_RIGHT)) {;
-        	Orientation newOri = orientation.turnRight(orientation);
-            return new State(this.position, newOri, this.turned_on, this.dirt);
+        	Orientation newOri = turnRight();
+            return new State(this.position, newOri, this.dirt);
         }
         else if (action.equals(Action.TURN_LEFT)) {
-        	Orientation newOri = orientation.turnLeft(orientation);
-            return new State(this.position, newOri, this.turned_on, this.dirt);
+        	Orientation newOri = turnLeft();
+            return new State(this.position, newOri, this.dirt);
         }
         else if (action.equals(Action.GO)) {
             Position newPos = position.goOneStep(orientation);
-            return new State(newPos, this.orientation, this.turned_on, this.dirt);
+            return new State(newPos, this.orientation, this.dirt);
         }
         else if (action.equals(Action.SUCK)) {
             HashSet<Position> newDirt = copyAndChangeDirt();
-            return new State(this.position, this.orientation, this.turned_on, newDirt);
+            return new State(this.position, this.orientation, newDirt);
         }
        /*
         else if (action.equals("TURN_OFF")) {
@@ -100,7 +100,37 @@ public class State {
         */
         return null;
     }
+    
+    public Orientation turnRight() {
+    	switch(orientation) {
+    	case NORTH: 
+    		return Orientation.EAST;
+		case EAST:
+			return Orientation.SOUTH;
+		case SOUTH:
+			return Orientation.WEST;
+		case WEST:
+			return Orientation.NORTH;
+		default:
+			return Orientation.NORTH;
+    	}
+    }
 
+    public Orientation turnLeft() {
+    	switch(orientation) {
+    	case NORTH: 
+    		return Orientation.WEST;
+		case EAST:
+			return Orientation.NORTH;
+		case SOUTH:
+			return Orientation.EAST;
+		case WEST:
+			return Orientation.SOUTH;
+		default:
+			return Orientation.NORTH;
+    	}
+    }    
+    
 /*
     private boolean[][] changeDirt() {
     	boolean[][] newBool = new boolean[dirt2.length][];
@@ -124,24 +154,19 @@ public class State {
     }
 
     public String toString() {
-        return "State{position: " + position + ", orientation: " + orientation + ", on:" + turned_on + "}";
+        return "State{position: " + position + ", orientation: " + orientation + "}";
     }
 
     @Override
     public int hashCode() {
-        int hashCode = 0;
-        if (this.turned_on) {
-            hashCode += 1;
-        }
-        switch(orientation) {
-        case NORTH: hashCode += 1;
-        case SOUTH: hashCode += 2;
-        case EAST: hashCode += 3;
-        case WEST: hashCode += 4;
-        }
-        hashCode = hashCode + this.position.x << 3;
-        hashCode = hashCode + this.position.y << 13;
-        hashCode = hashCode + this.dirt.size() << 27;
+        int hashCode = 17;
+
+    
+        hashCode = hashCode * 31 + orientation.hashCode();
+        hashCode = hashCode * 31 + this.position.hashCode();
+        Integer dirtSize = (Integer)this.dirt.size();
+        hashCode = hashCode * 31 + dirtSize.hashCode();
+        
         return hashCode;
     }
 
@@ -151,6 +176,6 @@ public class State {
     	if (other == null) return false;
         if (other.getClass() != this.getClass()) return false;
         State that = (State)other;
-        return (this.position.equals(that.position) && this.turned_on == that.turned_on && this.orientation == that.orientation && this.dirt.equals(that.dirt));
+        return (this.position.equals(that.position) && this.orientation == that.orientation && this.dirt.equals(that.dirt));
     }
 }

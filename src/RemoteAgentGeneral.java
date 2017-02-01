@@ -12,12 +12,12 @@ public class RemoteAgentGeneral implements Agent{
     private Environment e;
 
     public void init(Collection<String> percepts){
-        SearchType st = SearchType.DFS;
+        SearchType st = SearchType.BFS;
         actionSequence = parseInputAndRunSearch(percepts, st);
-//      System.out.print("Clean Sequence is: ");
-//        for (Action a : actionSequence) {
-//        	System.out.print(a + " ");
-//        } 
+		System.out.print("Clean Sequence is: ");
+		for (Action a : actionSequence) {
+			System.out.print(a + " ");
+		} 
     }
 
     public String nextAction(Collection<String> percepts){
@@ -46,7 +46,7 @@ public class RemoteAgentGeneral implements Agent{
                     if (m.matches()) {
                         //System.out.println("robot is at " + m.group(1) + "," + m.group(2));
                         e.setHomePos(Integer.valueOf(m.group(1)), Integer.valueOf(m.group(2)));
-                    }
+                    }	
                 }
                 else if (perceptName.equals("AT")) {
                     Matcher m2 = Pattern.compile("\\(\\s*AT\\sDIRT\\s+([0-9]+)\\s+([0-9]+)\\s*\\)").matcher(percept);
