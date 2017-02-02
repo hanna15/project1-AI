@@ -14,6 +14,7 @@ public class UniformCost {
 	private PriorityQueue<Node> frontier;
     private Set<State> explored = new HashSet<State>();
     private Environment e;
+    private Statistics stats;
 
     public UniformCost(Environment env){
     	e = env;
@@ -38,7 +39,7 @@ public class UniformCost {
             State s = n.getState();
             if (s.isGoalState(e.home_pos)) {
             	System.out.println("Goal path cost: " + n.getPathCost());
-                return n.getPathFromRoot();
+                return n.getPathFromRoot(stats);
             }
             if (!explored.contains(s)) {
                 ArrayList<Action> actions = s.legalActions(e);

@@ -12,11 +12,13 @@ public class BFS {
     private Queue<Node> frontier;
     private HashMap<State, Node> explored = new HashMap<State, Node>();
     private Environment e;
+    private Statistics stats;
 
     public BFS(Environment env){
     	e = env;
     	initial_node = new Node(e.initial_state);
     	frontier = new LinkedList<Node>();
+    	stats = new Statistics();
         //System.out.println("printing env info:");
         //System.out.println("init state " + e.initial_state);
         //System.out.println("x sixe " + e.sizeX);
@@ -44,15 +46,16 @@ public class BFS {
             	for (Action a : actions) {
             		State newState = s.successorState(a);
                     Node childNode = new Node(newState, 0, n, a);
+                    stats.incrementExpansions();
                     if (newState.isGoalState(e.home_pos)) {
                     	System.out.println("Found goal State. " + newState);
-                    	return childNode.getPathFromRoot();
+                    	return childNode.getPathFromRoot(stats);
                     }
                     frontier.add(childNode);
             	}
                 explored.put(s, n);
             }
-            System.out.println("Frontier size: " + frontier.size());
+            //System.out.println("Frontier size: " + frontier.size());
         }
         System.out.println("No goal node found");
         return failure();

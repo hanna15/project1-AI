@@ -11,6 +11,7 @@ public class DFS {
     public Node initial_node;
     private Set<State> explored = new HashSet<State>();
     private Stack<Node> frontier;
+    private Statistics stats;
     
     DFS(Environment env) {
     	this.e = env;
@@ -65,7 +66,7 @@ public class DFS {
                     Node childNode = new Node(newState, 0, n, a);
                     if (newState.isGoalState(e.home_pos)) {
                     	System.out.println("Found goal State. " + newState);
-                    	return childNode.getPathFromRoot();
+                    	return childNode.getPathFromRoot(stats);
                     }
                     frontier.push(childNode);
             	}

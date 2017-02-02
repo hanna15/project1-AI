@@ -33,7 +33,7 @@ public class Node {
         return parent == null;
     }
     
-    public Stack<Action> getPathFromRoot() {
+    public Stack<Action> getPathFromRoot(Statistics stats) {
     	 Stack<Action> path = new Stack<Action>();
          Node currNode = this;
          path.push(Action.TURN_OFF);
@@ -42,6 +42,8 @@ public class Node {
              currNode = currNode.parent;
          }
          path.push(Action.TURN_ON);
+         stats.setCost(path.size());
+         stats.printStatistics();
          return path;
     }
 
