@@ -15,7 +15,7 @@ public class BFS {
 
     public BFS(Environment env){
     	e = env;
-    	initial_node = new Node(e.initial_state, 0, null, null);
+    	initial_node = new Node(e.initial_state);
     	frontier = new LinkedList<Node>();
         //System.out.println("printing env info:");
         //System.out.println("init state " + e.initial_state);
