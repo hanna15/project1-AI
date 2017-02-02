@@ -17,6 +17,7 @@ public class DFS {
     	this.e = env;
     	this.frontier = new Stack<Node>();
         this.initial_node = new Node(e.initial_state);
+        this.stats = new Statistics();
     }
     /*
     
@@ -57,6 +58,9 @@ public class DFS {
         while (!frontier.isEmpty()) {
             Node n = frontier.pop();
             State s = n.getState();
+            if(explored.contains(s)) {
+            	stats.incrementNotVisited();
+            }
             if (!explored.contains(s)) {
                 ArrayList<Action> actions = s.legalActions(e);
                 //System.out.println("list of actions");
@@ -64,6 +68,7 @@ public class DFS {
             	for (Action a : actions) {
             		State newState = s.successorState(a);
                     Node childNode = new Node(newState, 0, n, a);
+                    stats.incrementExpansions();
                     if (newState.isGoalState(e.home_pos)) {
                     	System.out.println("Found goal State. " + newState);
                     	return childNode.getPathFromRoot(stats);
@@ -72,7 +77,6 @@ public class DFS {
             	}
                 explored.add(s);
             }
-            System.out.println("Frontier size: " + frontier.size());
         }
         System.out.println("No goal node found");
         return failure();

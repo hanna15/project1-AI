@@ -39,7 +39,10 @@ public class BFS {
         while (!frontier.isEmpty()) {
             Node n = frontier.remove();
             State s = n.getState();
-            if (!explored.containsKey(s)) {
+            if (explored.containsKey(s)) {
+            	stats.incrementNotVisited();
+            }
+            else {
                 ArrayList<Action> actions = s.legalActions(e);
                 //System.out.println("list of actions");
             	//System.out.println(actions.toString());
