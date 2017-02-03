@@ -6,23 +6,30 @@ public class Node {
     private Node parent; //to trace
     private int path_cost; //or double??
     private Action action; //the action that was used to reach this node
+    private int estimated_cost_to_goal;
     
-    public Node(State state) {
+    public Node(State state, int estimated_cost) {
     	this.state = state;
     	this.parent = null;
     	this.action = null;
     	this.path_cost = 0;
+    	this.estimated_cost_to_goal = estimated_cost;
     }
 
-    public Node(State state, int stepCost, Node parent, Action action) {
+    public Node(State state, int stepCost, int estimated_cost_to_goal, Node parent, Action action) {
         this.state = state;
         this.parent = parent;
         this.action = action;
         this.path_cost = parent.path_cost + stepCost;
+        this.estimated_cost_to_goal = estimated_cost_to_goal;
     }
 
     public State getState() {
         return this.state;
+    }
+    
+    public int getAStarTotalCost() {
+    	return estimated_cost_to_goal + path_cost;
     }
 
     public Node getParent() {

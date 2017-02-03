@@ -2,22 +2,34 @@ package src;
 import java.util.HashSet;
 
 public class Environment {
-	public boolean obstacles[][]; 
-    public HashSet<Position> dirt;
-    //public Position dirt[];
-    //public boolean dirt2[][];
-    public Position home_pos;
-    public Orientation home_orient;
-    public State initial_state;
-    public int sizeX;
-    public int sizeY;
+	private boolean obstacles[][]; 
+    private HashSet<Position> dirt;
+    private Position home_pos;
+    private Orientation home_orient;
+    private State initial_state;
+    private int sizeX;
+    private int sizeY;
     
     Environment(int x, int y) {
     	setSize(x,y);
-//    	home_pos = new Position(0, 0); // no
-//    	home_orient = Orientation.NORTH; // no
     	obstacles = new boolean[sizeX][sizeY];
     	dirt = new HashSet<Position>();
+    }
+    
+    public Position getHomePos() {
+    	return home_pos;
+    }
+    
+    public State getInitState() {
+    	return initial_state;
+    }
+    
+    public int getSizeX() {
+    	return sizeX;
+    }
+    
+    public int getSizeY() {
+    	return sizeY;
     }
     
     private void setSize(int x, int y) { // ath, switch?
@@ -35,7 +47,6 @@ public class Environment {
     
     public void setInitialState() {
         State s = new State(home_pos, home_orient, dirt);
-        // System.out.println(s);
         initial_state = s;
     }
   

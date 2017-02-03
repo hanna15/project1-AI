@@ -18,7 +18,7 @@ public class UniformCost {
 
     public UniformCost(Environment env){
     	e = env;
-    	initial_node = new Node(e.initial_state);
+    	initial_node = new Node(e.getInitState(), 0);
     	this.stats = new Statistics();
     	frontier = new PriorityQueue<Node>(new Comparator<Node>() {
     	    @Override
@@ -38,7 +38,7 @@ public class UniformCost {
         while (!frontier.isEmpty()) {
             Node n = frontier.remove();
             State s = n.getState();
-            if (s.isGoalState(e.home_pos)) {
+            if (s.isGoalState(e.getHomePos())) {
             	System.out.println("Goal path cost: " + n.getPathCost());
                 return n.getPathFromRoot(stats);
             }
@@ -49,8 +49,8 @@ public class UniformCost {
                 ArrayList<Action> actions = s.legalActions(e);
             	for (Action a : actions) {
             		State newState = s.successorState(a);
-            		int step_cost = s.calculateCost(a, e.home_pos);
-                    Node childNode = new Node(newState, step_cost, n, a); //lata herna inn rettan kostnad i stadinn fyrir 0
+            		int step_cost = s.calculateCost(a, e.getHomePos());
+                    Node childNode = new Node(newState, step_cost, 0, n, a); //lata herna inn rettan kostnad i stadinn fyrir 0
                     stats.incrementExpansions();
                     frontier.add(childNode);
             	}

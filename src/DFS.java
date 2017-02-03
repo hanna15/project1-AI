@@ -16,42 +16,9 @@ public class DFS {
     DFS(Environment env) {
     	this.e = env;
     	this.frontier = new Stack<Node>();
-        this.initial_node = new Node(e.initial_state);
+        this.initial_node = new Node(e.getInitState(), 0);
         this.stats = new Statistics();
     }
-    /*
-    
-    Stack<Action> findPath() {
-    	Node final_node = findPath(initial_node);
-    	return final_node.getPathFromRoot();
-    }
-    
-    public Node findPath(Node n) {
-    	State curr_state = n.getState();
-    	
-    	if(curr_state.isGoalState(e.home_pos)) {
-    		return n;
-    	}
-    	
-    	if (!explored.contains(curr_state)) {
-    		explored.add(curr_state);
-	    	ArrayList<Action> actions = curr_state.legalActions(e); 
-	    	//System.out.println("list of actions");
-	    	//System.out.println(actions.toString());
-	    	for(Action a: actions) {
-	    		//System.out.println(a.toString());
-	    		State new_state = curr_state.successorState(a);
-	    		//System.out.println(new_state.toString());
-	    		Node child_node = new Node(new_state, 0, n, a);
-	    		Node goal_node = findPath(child_node);
-	    		if (goal_node != null)
-	    			return goal_node;
-	    	}
-    	}
-    	//System.out.println("repeated state");
-    	return null;
-    }    
-    */
     public Stack <Action> findPath() {
 
         frontier.add(initial_node);
@@ -63,13 +30,11 @@ public class DFS {
             }
             if (!explored.contains(s)) {
                 ArrayList<Action> actions = s.legalActions(e);
-                //System.out.println("list of actions");
-            	//System.out.println(actions.toString());
             	for (Action a : actions) {
             		State newState = s.successorState(a);
-                    Node childNode = new Node(newState, 0, n, a);
+                    Node childNode = new Node(newState, 0, 0, n, a);
                     stats.incrementExpansions();
-                    if (newState.isGoalState(e.home_pos)) {
+                    if (newState.isGoalState(e.getHomePos())) {
                     	System.out.println("Found goal State. " + newState);
                     	return childNode.getPathFromRoot(stats);
                     }

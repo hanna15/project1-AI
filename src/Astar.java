@@ -1,5 +1,6 @@
 package src;
 
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashSet;
@@ -16,12 +17,13 @@ public class Astar {
 
     public Astar(Environment env){
     	e = env;
-    	initial_node = new Node(e.initial_state);
+    	int initial_estimated_cost = heuristicFunction(e.getInitState());
+    	initial_node = new Node(e.getInitState(), initial_estimated_cost);
     	this.stats = new Statistics();
     	frontier = new PriorityQueue<Node>(new Comparator<Node>() {
     	    @Override
     	    public int compare(Node n1, Node n2) {
-    	        return ((Integer)n1.getPathCost()).compareTo(n2.getPathCost()); //þyrfti að vera aðeins öðruvísi compartor, taka lika inn estimated cost
+    	        return ((Integer)n1.getAStarTotalCost()).compareTo(n2.getAStarTotalCost()); //þyrfti að vera aðeins öðruvísi compartor, taka lika inn estimated cost
     	                                                                        //spurning um að geyma total cost (lika í node), sem er estimated+path
     	    }});
     }
@@ -31,7 +33,7 @@ public class Astar {
         while (!frontier.isEmpty()) {
             Node n = frontier.remove();
             State s = n.getState();
-            if (s.isGoalState(e.home_pos)) {
+            if (s.isGoalState(e.getHomePos())) {
             	System.out.println("Goal path cost: " + n.getPathCost());
                 return n.getPathFromRoot(stats);
             }
@@ -42,9 +44,9 @@ public class Astar {
                 ArrayList<Action> actions = s.legalActions(e);
             	for (Action a : actions) {
             		State newState = s.successorState(a);
-            		int step_cost = s.calculateCost(a, e.home_pos);
-            		int estimated_cost_to_end = heuristicFunction();
-                    Node childNode = new Node(newState, step_cost, n, a); //lata herna inn rettan kostnad i stadinn fyrir 0
+            		int step_cost = s.calculateCost(a, e.getHomePos());
+            		int estimated_cost_to_goal = heuristicFunction(newState);
+                    Node childNode = new Node(newState, step_cost, estimated_cost_to_goal, n, a); //lata herna inn rettan kostnad i stadinn fyrir 0
                     //þyrftum moulega ad lata node like taka inn estimated cost
                     stats.incrementExpansions();
                     frontier.add(childNode);
@@ -55,9 +57,9 @@ public class Astar {
         System.out.println("No goal node found");
         return failure();
     }
-    
-    int heuristicFunction() { //the shit
-    	return 0;
+
+    int heuristicFunction(State s) { //the shit
+    	return s.getDirt().size(); //hehe, thetta fall ekki malid, en her kemur sweet formula
     }
     
     public Stack<Action> failure() {

@@ -12,7 +12,7 @@ public class RemoteAgentGeneral implements Agent{
     private Environment e;
 
     public void init(Collection<String> percepts){
-        SearchType st = SearchType.DFS;
+        SearchType st = SearchType.ASTAR;
         actionSequence = parseInputAndRunSearch(percepts, st);
 		System.out.print("Clean Sequence is: ");
 		//for (Action a : actionSequence) {
@@ -52,12 +52,12 @@ public class RemoteAgentGeneral implements Agent{
                     Matcher m2 = Pattern.compile("\\(\\s*AT\\sDIRT\\s+([0-9]+)\\s+([0-9]+)\\s*\\)").matcher(percept);
                     Matcher m3 = Pattern.compile("\\(\\s*AT\\sOBSTACLE\\s+([0-9]+)\\s+([0-9]+)\\s*\\)").matcher(percept);
                     if (m2.matches()) {
-                        System.out.println("dirt is at " + m2.group(1) + "," + m2.group(2));
+                        //System.out.println("dirt is at " + m2.group(1) + "," + m2.group(2));
                         e.addDirt(Integer.valueOf(m2.group(1)), Integer.valueOf(m2.group(2)));
                     }
                     
                     else if (m3.matches()) {
-                        System.out.println("obstacle is at " + m3.group(1) + "," + m3.group(2));
+                        //System.out.println("obstacle is at " + m3.group(1) + "," + m3.group(2));
                         e.addObstacle(Integer.valueOf(m3.group(1)), Integer.valueOf(m3.group(2)));
                     }
                 }
@@ -89,6 +89,11 @@ public class RemoteAgentGeneral implements Agent{
             //
         	UniformCost uc = new UniformCost(e);
         	return uc.findPath();
+        }
+        else if (searchType == SearchType.ASTAR) {
+            //
+        	Astar as = new Astar(e);
+        	return as.findPath();
         }
         else {
             System.out.print("No valid search option selected");

@@ -1,34 +1,30 @@
 package src;
-
-
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.ArrayList;
-import java.util.Iterator;
+
 
 public class State {
     private Orientation orientation;
     private Position position;
-    //private boolean turned_on;
-    public HashSet<Position> dirt;
-   // public boolean[][] dirt2;
+    private HashSet<Position> dirt;
 
-    public State(Position position, Orientation orientation, HashSet<Position> dirt) { // turned on tekið út.
+
+    public State(Position position, Orientation orientation, HashSet<Position> dirt) {
         this.position = position;
         this.orientation = orientation;
-        //this.turned_on = turned_on;
         this.dirt = dirt;
-        //this.dirt2 = dirt2;
     }
 
     public Position getPosition() { 
     	return this.position; 
     }
+    
+    public HashSet<Position> getDirt() {
+    	return dirt;
+    }
 
     public boolean isGoalState(Position home) {
-        // Do not check if the bot is turned off since it is added manually
-    	//int trueCount = Arrays.deepToString(dirt2).replaceAll("[^t]", "").length();
-        if (dirt.size() == 0 && this.getPosition().equals(home)) {
+    	if (dirt.size() == 0 && this.getPosition().equals(home)) {
             return true;
         }
         return false;
@@ -38,32 +34,26 @@ public class State {
         ArrayList<Action> legalActions = new ArrayList<Action>();
 
         if (dirt.contains(position)) {
-        	// System.out.println("in suck");
             legalActions.add(Action.SUCK);
         }
         else {
         	// Try to go forward 
             Position nextPos = position.goOneStep(orientation);
-            if (isPositionLegal(nextPos, e.sizeX, e.sizeY) && !e.containsObstacle(nextPos)) {
-            	// System.out.println("in GO");
+            if (isPositionLegal(nextPos, e.getSizeX(), e.getSizeY()) && !e.containsObstacle(nextPos)) {
                 legalActions.add(Action.GO);
             }
         	
             // try to turn right
             Orientation rOrient = turnRight();
-            if (isPositionLegal(position.goOneStep(rOrient), e.sizeX,e.sizeY)) {
-            	// System.out.println("in right");
+            if (isPositionLegal(position.goOneStep(rOrient), e.getSizeX(), e.getSizeY())) {
                 legalActions.add(Action.TURN_RIGHT);
             }
 
             // try to turn left
             Orientation lOrient = turnLeft();
-            if (isPositionLegal(position.goOneStep(lOrient), e.sizeX, e.sizeY)) { 
-            	// System.out.println("in left");
+            if (isPositionLegal(position.goOneStep(lOrient), e.getSizeX(), e.getSizeY())) { 
                 legalActions.add(Action.TURN_LEFT);
             }
-            
-            // System.out.println("NOTHING");
         }
         return legalActions;
     }
@@ -92,14 +82,6 @@ public class State {
             HashSet<Position> newDirt = copyAndChangeDirt();
             return new State(this.position, this.orientation, newDirt);
         }
-       /*
-        else if (action.equals("TURN_OFF")) {
-            return new State(this.position, this.orientation, false, this.dirt);
-        }
-        else if (action.equals("TURN_ON")) {
-            return new State(this.position, this.orientation, true, this.dirt);
-        }
-        */
         return null;
     }
     
@@ -132,25 +114,13 @@ public class State {
 			return Orientation.NORTH;
     	}
     }    
-    
-/*
-    private boolean[][] changeDirt() {
-    	boolean[][] newBool = new boolean[dirt2.length][];
-    	for(int i = 0; i < newBool.length; i++) {
-    		newBool[i] = dirt2[i].clone();
-    	}
-    	newBool[position.x][position.y] = false;
-    	return newBool;
-    }
-*/
-    
+     
     private HashSet<Position> copyAndChangeDirt() {
         HashSet<Position> set = new HashSet<Position>();
-        for (Iterator<Position> i = this.dirt.iterator(); i.hasNext();) {
-            Position item = i.next();
-            if (!item.equals(this.position)) {
-                set.add(item);
-            }
+        for (Position p : dirt) {
+        	if (!p.equals(this.position)) {
+        		set.add(p);
+        	}
         }
         return set;
     }
@@ -177,8 +147,6 @@ public class State {
     @Override
     public int hashCode() {
         int hashCode = 17;
-
-    
         hashCode = hashCode * 31 + orientation.hashCode();
         hashCode = hashCode * 31 + this.position.hashCode();
         Integer dirtSize = (Integer)this.dirt.size();
