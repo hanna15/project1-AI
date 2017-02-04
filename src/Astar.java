@@ -14,13 +14,14 @@ public class Astar {
     private Set<State> explored = new HashSet<State>();
     private Environment e;
     private Statistics stats;
+    private int initial_capacity = 11;
 
     public Astar(Environment env){
     	e = env;
     	int initial_estimated_cost = heuristicFunction(e.getInitState());
     	initial_node = new Node(e.getInitState(), initial_estimated_cost);
     	this.stats = new Statistics();
-    	frontier = new PriorityQueue<Node>(11, new Comparator<Node>() {
+    	frontier = new PriorityQueue<Node>(initial_capacity, new Comparator<Node>() {
     	    @Override
     	    public int compare(Node n1, Node n2) {
     	        return ((Integer)n1.getAStarTotalCost()).compareTo(n2.getAStarTotalCost()); //�yrfti a� vera a�eins ��ruv�si compartor, taka lika inn estimated cost

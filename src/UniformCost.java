@@ -15,12 +15,13 @@ public class UniformCost {
     private Set<State> explored = new HashSet<State>();
     private Environment e;
     private Statistics stats;
+    private int initial_capacity = 11;
 
     public UniformCost(Environment env){
     	e = env;
     	initial_node = new Node(e.getInitState(), 0);
     	this.stats = new Statistics();
-    	frontier = new PriorityQueue<Node>(11, new Comparator<Node>() {
+    	frontier = new PriorityQueue<Node>(initial_capacity, new Comparator<Node>() {
     	    @Override
     	    public int compare(Node n1, Node n2) {
     	        return ((Integer)n1.getPathCost()).compareTo(n2.getPathCost());
