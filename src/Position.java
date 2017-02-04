@@ -40,6 +40,7 @@ public class Position {
         // System.out.println(newPos);
         return newPos;
     }
+    
     @Override 
     public boolean equals(Object other) {
         if (other == this) return true;

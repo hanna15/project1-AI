@@ -12,7 +12,7 @@ public class RemoteAgentGeneral implements Agent{
     private Environment e;
 
     public void init(Collection<String> percepts){
-        SearchType st = SearchType.BFS;
+        SearchType st = SearchType.ASTAR;
         actionSequence = parseInputAndRunSearch(percepts, st);
 		System.out.print("Clean Sequence is: ");
 		//for (Action a : actionSequence) {
