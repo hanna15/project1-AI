@@ -20,7 +20,7 @@ public class UniformCost {
     	e = env;
     	initial_node = new Node(e.getInitState(), 0);
     	this.stats = new Statistics();
-    	frontier = new PriorityQueue<Node>(new Comparator<Node>() {
+    	frontier = new PriorityQueue<Node>(11, new Comparator<Node>() {
     	    @Override
     	    public int compare(Node n1, Node n2) {
     	        return ((Integer)n1.getPathCost()).compareTo(n2.getPathCost());

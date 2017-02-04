@@ -7,8 +7,8 @@ import java.util.Set;
 import java.util.Stack;
 
 public class DFS {
-	public Environment e;
-    public Node initial_node;
+	private Environment e;
+    private Node initial_node;
     private Set<State> explored = new HashSet<State>();
     private Stack<Node> frontier;
     private Statistics stats;

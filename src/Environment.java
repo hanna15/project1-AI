@@ -51,8 +51,8 @@ public class Environment {
     }
   
     public boolean containsObstacle(Position p) {
-        int x = p.x;
-        int y = p.y;
+        int x = p.getX();
+        int y = p.getY();
         if (obstacles[x][y]) {
             return true;
         }

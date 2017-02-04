@@ -20,11 +20,11 @@ public class Astar {
     	int initial_estimated_cost = heuristicFunction(e.getInitState());
     	initial_node = new Node(e.getInitState(), initial_estimated_cost);
     	this.stats = new Statistics();
-    	frontier = new PriorityQueue<Node>(new Comparator<Node>() {
+    	frontier = new PriorityQueue<Node>(11, new Comparator<Node>() {
     	    @Override
     	    public int compare(Node n1, Node n2) {
-    	        return ((Integer)n1.getAStarTotalCost()).compareTo(n2.getAStarTotalCost()); //þyrfti að vera aðeins öðruvísi compartor, taka lika inn estimated cost
-    	                                                                        //spurning um að geyma total cost (lika í node), sem er estimated+path
+    	        return ((Integer)n1.getAStarTotalCost()).compareTo(n2.getAStarTotalCost()); //ï¿½yrfti aï¿½ vera aï¿½eins ï¿½ï¿½ruvï¿½si compartor, taka lika inn estimated cost
+    	                                                                        //spurning um aï¿½ geyma total cost (lika ï¿½ node), sem er estimated+path
     	    }});
     }
 
@@ -47,7 +47,7 @@ public class Astar {
             		int step_cost = s.calculateCost(a, e.getHomePos());
             		int estimated_cost_to_goal = heuristicFunction(newState);
                     Node childNode = new Node(newState, step_cost, estimated_cost_to_goal, n, a); //lata herna inn rettan kostnad i stadinn fyrir 0
-                    //þyrftum moulega ad lata node like taka inn estimated cost
+                    //ï¿½yrftum moulega ad lata node like taka inn estimated cost
                     stats.incrementExpansions();
                     frontier.add(childNode);
             	}

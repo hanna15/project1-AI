@@ -2,8 +2,8 @@ package src;
 
 public class Position {
 
-    public int x;
-    public int y;
+    private int x;
+    private int y;
 
     public Position(int x, int y) {
         this.x = x; this.y = y;
@@ -12,6 +12,15 @@ public class Position {
     public String toString() {
         return "(" + x + ", " + y + ")";
     }
+    
+    public int getX() {
+    	return x;
+    }
+    
+    public int getY() {
+    	return y;
+    }
+    
     public Position goOneStep(Orientation orient) {
         Position newPos = new Position(x,y);
         switch(orient) {

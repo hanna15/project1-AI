@@ -59,7 +59,7 @@ public class State {
     }
 
     private boolean isPositionLegal(Position pos, int xSize, int ySize) {
-        if (pos.x < 0 || pos.y < 0 || pos.x > xSize - 1 || pos.y > ySize - 1) {
+        if (pos.getX() < 0 || pos.getY() < 0 || pos.getX() > xSize - 1 || pos.getY() > ySize - 1) {
             return false;
         }
         return true;
