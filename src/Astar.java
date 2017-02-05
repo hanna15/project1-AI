@@ -27,7 +27,7 @@ public class Astar {
     public Astar(Environment env){
     	e = env;
     	dirt_distance = new ArrayList<Position>();
-    	int initial_estimated_cost = (int)heuristicFunction(e.getInitState()); //ath, casting is bad
+    	int initial_estimated_cost = heuristicFunction(e.getInitState());
     	initial_node = new Node(e.getInitState(), initial_estimated_cost);
     	this.stats = new Statistics();
     	this.dirt = initial_node.getState().getDirt();
@@ -40,8 +40,8 @@ public class Astar {
     	Collections.sort(dirt_distance, new Comparator<Position>() {
 			@Override
 			public int compare(Position p1, Position p2) {
-		        Double dist1= distanceToHome(p1);
-		        Double dist2= distanceToHome(p2);
+		        int dist1= distanceToHome(p1);
+		        int dist2= distanceToHome(p2);
 		        //System.out.println(p1 + "dist: " + dist1 + " " + p2 + "dist: " + dist2);
 		        if (dist2 > dist1) {
 		        	return -1;
@@ -63,14 +63,14 @@ public class Astar {
     }
 
     
-    public Double distanceToHome(Position p) {
+    public int distanceToHome(Position p) {
     	Position home = e.getHomePos();
-    	Double x = (double) (home.getX() - p.getX());
-    	Double y = (double) (home.getY() - p.getY());
+    	int x = (home.getX() - p.getX());
+    	int y = (home.getY() - p.getY());
     	//Double sum = Math.pow(x, 2) + Math.pow(y,2);
     	//Double res = Math.sqrt(sum);
     	//System.out.println(p + " " + res);
-    	Double res = Math.abs(x) + Math.abs(y);
+    	int res = Math.abs(x) + Math.abs(y);
     	return res;
     }
     
@@ -91,8 +91,11 @@ public class Astar {
                 ArrayList<Action> actions = s.legalActions(e);
             	for (Action a : actions) {
             		State newState = s.successorState(a);
+            		if (a == Action.SUCK) {
+            			dirt_distance.remove(newState.getPosition());  // does this make sense?
+            		}
             		int step_cost = s.calculateCost(a, e.getHomePos());
-            		int estimated_cost_to_goal = (int)heuristicFunction(newState); // ath, thetta int cast er frekar iffy
+            		int estimated_cost_to_goal = heuristicFunction(newState); // ath, thetta int cast er frekar iffy
                     Node childNode = new Node(newState, step_cost, estimated_cost_to_goal, n, a); //lata herna inn rettan kostnad i stadinn fyrir 0
                     //�yrftum moulega ad lata node like taka inn estimated cost
                     stats.incrementExpansions();
@@ -105,12 +108,12 @@ public class Astar {
         return failure();
     }
 
-    double heuristicFunction(State s) { //the shit
-    	//return s.getDirt().size(); //hehe, thetta fall ekki malid, en her kemur sweet formula
+    int heuristicFunction(State s) { //the shit
+//    	return s.getDirt().size(); //hehe, thetta fall ekki malid, en her kemur sweet formula
     	Position furthestDirt = new Position(0, 0);
     	if (dirt_distance.size() > 1) 
     		furthestDirt = dirt_distance.remove(dirt_distance.size()-1); //passa að remova úr þessu ef gerum Suck
-    	return distanceToHome(furthestDirt);
+    	return distanceToHome(furthestDirt) + dirt_distance.size();
     }
     
     public Stack<Action> failure() {
