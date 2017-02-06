@@ -46,7 +46,7 @@ public class State {
             // try to turn right, only allow if "GO" in the new direction will not result in bumping to an obstacle or walls
             Orientation rOrient = turnRight();
             Position newPosR = position.goOneStep(rOrient);
-            if (legalPos(newPosR, e.getSizeX(), e.getSizeY())&& !e.containsObstacle(newPosR)) {
+            if (legalPos(newPosR, e.getSizeX(), e.getSizeY()) && !e.containsObstacle(newPosR)) {
                 legalActions.add(Action.TURN_RIGHT);
             }
 
@@ -55,6 +55,11 @@ public class State {
             Position newPosL = position.goOneStep(lOrient);
             if (legalPos(newPosL, e.getSizeX(), e.getSizeY()) && !e.containsObstacle(newPosL)) { 
                 legalActions.add(Action.TURN_LEFT);
+            }
+            
+            if(legalActions.size() == 0) {
+            	//System.out.println("In exception");
+            	legalActions.add(Action.TURN_LEFT);
             }
         }
         return legalActions;

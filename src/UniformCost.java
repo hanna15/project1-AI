@@ -8,20 +8,19 @@ import java.util.Set;
 import java.util.Stack;
 
 public class UniformCost {
-	// mjog svipad bfs
-	// tharf ad athuga hvort thad er odyrara ad slokkava a ser en ad saekja allt dirt
 	private Node initial_node;
 	private PriorityQueue<Node> frontier;
-    private Set<State> explored = new HashSet<State>();
+    private Set<State> explored;
     private Environment e;
     private Statistics stats;
     private int initial_capacity = 11;
 
     public UniformCost(Environment env){
-    	e = env;
-    	initial_node = new Node(e.getInitState(), 0);
+    	this.e = env;
+    	this.initial_node = new Node(e.getInitState(), 0);
+    	this.explored = new HashSet<State>();
     	this.stats = new Statistics();
-    	frontier = new PriorityQueue<Node>(initial_capacity, new Comparator<Node>() {
+    	this.frontier = new PriorityQueue<Node>(initial_capacity, new Comparator<Node>() {
     	    @Override
     	    public int compare(Node n1, Node n2) {
     	        return ((Integer)n1.getPathCost()).compareTo(n2.getPathCost());
@@ -39,7 +38,6 @@ public class UniformCost {
             Node n = frontier.remove();
             State s = n.getState();
             if (s.isGoalState(e.getHomePos())) {
-            	System.out.println("Goal path cost: " + n.getPathCost());
                 return n.getPathFromRoot(stats);
             }
             if(explored.contains(s)) {

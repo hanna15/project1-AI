@@ -9,7 +9,7 @@ import java.util.Stack;
 public class DFS {
 	private Environment e;
     private Node initial_node;
-    private Set<State> explored = new HashSet<State>();
+    private Set<State> explored;
     private Stack<Node> frontier;
     private Statistics stats;
     
@@ -18,6 +18,7 @@ public class DFS {
     	this.frontier = new Stack<Node>();
         this.initial_node = new Node(e.getInitState(), 0);
         this.stats = new Statistics();
+        this.explored = new HashSet<State>();
     }
     public Stack <Action> findPath() {
 
@@ -35,7 +36,6 @@ public class DFS {
                     Node childNode = new Node(newState, 0, 0, n, a);
                     stats.incrementExpansions();
                     if (newState.isGoalState(e.getHomePos())) {
-                    	System.out.println("Found goal State. " + newState);
                     	return childNode.getPathFromRoot(stats);
                     }
                     frontier.push(childNode);

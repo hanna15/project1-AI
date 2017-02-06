@@ -1,24 +1,24 @@
 package src;
+
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Queue;
-import java.util.Set;
 import java.util.Stack;
 
 public class BFS {
     private Node initial_node;
     private Queue<Node> frontier;
-    private HashMap<State, Node> explored = new HashMap<State, Node>();
+    private HashMap<State, Node> explored;
     private Environment e;
     private Statistics stats;
 
     public BFS(Environment env){
-    	e = env;
-    	initial_node = new Node(e.getInitState(), 0);
-    	frontier = new LinkedList<Node>();
-    	stats = new Statistics();
+    	this.e = env;
+    	this.initial_node = new Node(e.getInitState(), 0);
+    	this.frontier = new LinkedList<Node>();
+    	this.explored = new HashMap<State, Node>();
+    	this.stats = new Statistics();
     }
 
     public Stack <Action> findPath() {
@@ -36,7 +36,6 @@ public class BFS {
                     Node childNode = new Node(newState, 0, 0, n, a);
                     stats.incrementExpansions();
                     if (newState.isGoalState(e.getHomePos())) {
-                    	System.out.println("Found goal State. " + newState);
                     	return childNode.getPathFromRoot(stats);
                     }
                     frontier.add(childNode);

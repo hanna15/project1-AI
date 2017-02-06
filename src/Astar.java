@@ -1,32 +1,28 @@
 package src;
 
-
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Set;
-import java.util.SortedMap;
 import java.util.Stack;
-import java.util.TreeMap;
+
 
 public class Astar {
 	private Node initial_node;
 	private PriorityQueue<Node> frontier;
-    private Set<State> explored = new HashSet<State>();
+    private Set<State> explored;
     private Environment e;
     private Statistics stats;
     private int initial_capacity = 11;
     
     public Astar(Environment env){
-    	e = env;
+    	this.e = env;
     	int initial_estimated_cost = heuristicFunction(e.getInitState());
-    	initial_node = new Node(e.getInitState(), initial_estimated_cost);
+    	this.initial_node = new Node(e.getInitState(), initial_estimated_cost);
     	this.stats = new Statistics();
-    	frontier = new PriorityQueue<Node>(initial_capacity, new Comparator<Node>() {
+    	this.explored = new HashSet<State>();
+    	this.frontier = new PriorityQueue<Node>(initial_capacity, new Comparator<Node>() {
     	    @Override
     	    public int compare(Node n1, Node n2) {
     	        return ((Integer)n1.getAStarTotalCost()).compareTo(n2.getAStarTotalCost()); 
@@ -54,7 +50,7 @@ public class Astar {
                     stats.incrementExpansions();
                     frontier.add(childNode);
             	}
-                explored.add(s);
+               explored.add(s);
             }
         }
         System.out.println("No goal node found");
