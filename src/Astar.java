@@ -20,20 +20,17 @@ public class Astar {
     private Environment e;
     private Statistics stats;
     private int initial_capacity = 11;
-    private HashSet<Position> dirt;
     
     public Astar(Environment env){
     	e = env;
     	int initial_estimated_cost = heuristicFunction(e.getInitState());
     	initial_node = new Node(e.getInitState(), initial_estimated_cost);
     	this.stats = new Statistics();
-
     	frontier = new PriorityQueue<Node>(initial_capacity, new Comparator<Node>() {
     	    @Override
     	    public int compare(Node n1, Node n2) {
     	        return ((Integer)n1.getAStarTotalCost()).compareTo(n2.getAStarTotalCost()); 
     	    }});
-
     }
 
     public Stack <Action> findPath() {
@@ -78,7 +75,6 @@ public class Astar {
     	int x = (p1.getX() - p2.getX());
     	int y = (p1.getY() - p2.getY());
     	int res = Math.abs(x) + Math.abs(y);
-    	
     	return res;
     }
     

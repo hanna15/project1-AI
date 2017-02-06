@@ -29,12 +29,11 @@ public class UniformCost {
     }
 
     public Stack <Action> findPath() {
-        /*
-    	if (initial_node.getState().isGoalState(e.home_pos)) {
+    	//if there is no dirt this would accelerate the process
+    	/*if (initial_node.getState().isGoalState(e.getHomePos())) {
             System.out.println("First was goal");
-        	return initial_node.getPathFromRoot();
-        }
-        */
+        	return initial_node.getPathFromRoot(stats);
+        }*/
         frontier.add(initial_node);
         while (!frontier.isEmpty()) {
             Node n = frontier.remove();
