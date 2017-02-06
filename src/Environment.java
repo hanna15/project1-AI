@@ -32,7 +32,7 @@ public class Environment {
     	return sizeY;
     }
     
-    private void setSize(int x, int y) { // ath, switch?
+    private void setSize(int x, int y) {
         sizeX = x;
         sizeY = y;
     }

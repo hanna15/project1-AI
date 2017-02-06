@@ -1,17 +1,11 @@
 package src;
 
-
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Set;
-import java.util.SortedMap;
 import java.util.Stack;
-import java.util.TreeMap;
 
 public class Astar {
 	private Node initial_node;
@@ -19,18 +13,20 @@ public class Astar {
     private Set<State> explored = new HashSet<State>();
     private Environment e;
     private Statistics stats;
-    private int initial_capacity = 11;
+    private int initial_capacity = 11; // needed for initializing PriorityQueue
     
     public Astar(Environment env){
     	e = env;
     	int initial_estimated_cost = heuristicFunction(e.getInitState());
     	initial_node = new Node(e.getInitState(), initial_estimated_cost);
     	this.stats = new Statistics();
+
     	frontier = new PriorityQueue<Node>(initial_capacity, new Comparator<Node>() {
     	    @Override
     	    public int compare(Node n1, Node n2) {
     	        return ((Integer)n1.getAStarTotalCost()).compareTo(n2.getAStarTotalCost()); 
     	    }});
+
     }
 
     public Stack <Action> findPath() {
@@ -75,6 +71,7 @@ public class Astar {
     	int x = (p1.getX() - p2.getX());
     	int y = (p1.getY() - p2.getY());
     	int res = Math.abs(x) + Math.abs(y);
+    	
     	return res;
     }
     

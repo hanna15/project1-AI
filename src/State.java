@@ -2,11 +2,11 @@ package src;
 import java.util.HashSet;
 import java.util.ArrayList;
 
-
 public class State {
     private Orientation orientation;
     private Position position;
     private HashSet<Position> dirt;
+
 
     public State(Position position, Orientation orientation, HashSet<Position> dirt) {
         this.position = position;
@@ -21,51 +21,49 @@ public class State {
     public HashSet<Position> getDirt() {
     	return dirt;
     }
-    
-    //We have reached the goal if all dirt has been cleared and we are back home
+
     public boolean isGoalState(Position home) {
-    	return (dirt.size() == 0 && this.getPosition().equals(home));
+    	if (dirt.size() == 0 && this.getPosition().equals(home)) {
+            return true;
+        }
+        return false;
     }
-    
-    //Returns list of all the legal actions from the state
-    //We restrict the legal actions to reduce states explored
+
     public ArrayList<Action> legalActions(Environment e) {
         ArrayList<Action> legalActions = new ArrayList<Action>();
-        
-        //only allow one action, suck, if the state contains dirt
+
         if (dirt.contains(position)) {
             legalActions.add(Action.SUCK);
         }
         else {
-        	// Try to go forward, only allow if it will not result in bumping to an obstacle or the walls
+        	// try to go forward 
             Position nextPos = position.goOneStep(orientation);
-            if (legalPos(nextPos, e.getSizeX(), e.getSizeY()) && !e.containsObstacle(nextPos)) {
+            if (isPositionLegal(nextPos, e.getSizeX(), e.getSizeY()) && !e.containsObstacle(nextPos)) {
                 legalActions.add(Action.GO);
             }
         	
-            // try to turn right, only allow if "GO" in the new direction will not result in bumping to an obstacle or walls
+            // try to turn right
             Orientation rOrient = turnRight();
-            Position newPosR = position.goOneStep(rOrient);
-            if (legalPos(newPosR, e.getSizeX(), e.getSizeY())&& !e.containsObstacle(newPosR)) {
+            if (isPositionLegal(position.goOneStep(rOrient), e.getSizeX(), e.getSizeY())) {
                 legalActions.add(Action.TURN_RIGHT);
             }
 
-            // try to turn left, only allow if "GO" in the new direction will not result in bumping to an obstacle or walls
+            // try to turn left
             Orientation lOrient = turnLeft();
-            Position newPosL = position.goOneStep(lOrient);
-            if (legalPos(newPosL, e.getSizeX(), e.getSizeY()) && !e.containsObstacle(newPosL)) { 
+            if (isPositionLegal(position.goOneStep(lOrient), e.getSizeX(), e.getSizeY())) { 
                 legalActions.add(Action.TURN_LEFT);
             }
         }
         return legalActions;
     }
-    
-    //checks if position is whithin grid
-    private boolean legalPos(Position pos, int xSize, int ySize) {
-        return (pos.getX() >= 0 && pos.getY() >= 0 && pos.getX() < xSize && pos.getY() < ySize);
+
+    private boolean isPositionLegal(Position pos, int xSize, int ySize) {
+        if (pos.getX() < 0 || pos.getY() < 0 || pos.getX() > xSize - 1 || pos.getY() > ySize - 1) {
+            return false;
+        }
+        return true;
     }
 
-    //returns the state that results from a given action on the current state
     public State successorState(Action action) {
         if (action.equals(Action.TURN_RIGHT)) {;
         	Orientation newOri = turnRight();
@@ -115,20 +113,21 @@ public class State {
 			return Orientation.NORTH;
     	}
     }    
-    
-    //updates the dirt in the environment for a state that resulted from dirty position being sucked
+     
     private HashSet<Position> copyAndChangeDirt() {
         HashSet<Position> set = new HashSet<Position>();
-        //copying the previous dirt set... 
         for (Position p : dirt) {
-        	if (!p.equals(this.position)) { //...but not adding the current dirt that is being sucked
+        	if (!p.equals(this.position)) {
         		set.add(p);
         	}
         }
         return set;
     }
+
+    public String toString() {
+        return "State{position: " + position + ", orientation: " + orientation + "}";
+    }
     
-    //for UCS and ASTAR
     public int calculateCost(Action action, Position home) {
     	if (action.equals(Action.TURN_OFF)) {
         	if(this.position.equals(home)) {

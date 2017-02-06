@@ -8,8 +8,6 @@ import java.util.Set;
 import java.util.Stack;
 
 public class UniformCost {
-	// mjog svipad bfs
-	// tharf ad athuga hvort thad er odyrara ad slokkava a ser en ad saekja allt dirt
 	private Node initial_node;
 	private PriorityQueue<Node> frontier;
     private Set<State> explored = new HashSet<State>();
@@ -29,11 +27,6 @@ public class UniformCost {
     }
 
     public Stack <Action> findPath() {
-    	//if there is no dirt this would accelerate the process
-    	/*if (initial_node.getState().isGoalState(e.getHomePos())) {
-            System.out.println("First was goal");
-        	return initial_node.getPathFromRoot(stats);
-        }*/
         frontier.add(initial_node);
         while (!frontier.isEmpty()) {
             Node n = frontier.remove();
@@ -50,7 +43,7 @@ public class UniformCost {
             	for (Action a : actions) {
             		State newState = s.successorState(a);
             		int step_cost = s.calculateCost(a, e.getHomePos());
-                    Node childNode = new Node(newState, step_cost, 0, n, a); //lata herna inn rettan kostnad i stadinn fyrir 0
+                    Node childNode = new Node(newState, step_cost, 0, n, a);
                     stats.incrementExpansions();
                     frontier.add(childNode);
             	}

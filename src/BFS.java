@@ -1,10 +1,9 @@
 package src;
+
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Queue;
-import java.util.Set;
 import java.util.Stack;
 
 public class BFS {
@@ -43,7 +42,6 @@ public class BFS {
             	}
                 explored.put(s,n);
             }
-            //System.out.println("Frontier size: " + frontier.size());
         }
         System.out.println("No goal node found");
         return failure();
